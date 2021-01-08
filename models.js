@@ -5,15 +5,17 @@ import {MTLLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/MT
 import {OBJLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/OBJLoader.js';
 
 export function loadModels() {
+    const objLoader = createObjloader('modular_terrain_collection/Materials_Modular_Terrain.mtl');
+
     return Promise.all([
         loadGltf('KayKit Dungeon Pack 1.0/Models/Characters/gltf/character_mage.gltf')
             .then(({scene}) => scene),
-        loadObj('Modular Terrain Hilly/Water_Flat.obj')
+        objLoader.loadObj('modular_terrain_collection/Hilly_Terrain_Water_Flat.obj')
             .then(waterTile => {
-                waterTile.position.y = -0.35;
+                waterTile.position.y = -0.7;
                 return waterTile;
             }),
-        loadObj('Modular Terrain Hilly/Grass_Flat.obj')
+        objLoader.loadObj('modular_terrain_collection/Hilly_Terrain_Grass_Floor.obj')
             .then(grassTile => {
                 grassTile.position.y = -0.2;
                 return grassTile;
@@ -35,26 +37,19 @@ export function loadGltf(path) {
     });
 }
 
-export function loadObj(path) {
-    return new Promise((resolve, reject) => {
-        const manager = new THREE.LoadingManager();
-
-        const materialPath = path.substr(0, path.length - 4) + '.mtl';
-        new MTLLoader(manager)
-            .load(
-                materialPath,
-                (materials) => {
-                    new OBJLoader(manager)
-                        .setMaterials(materials)
-                        .load(
-                            path,
-                            resolve,
-                            undefined,
-                            reject,
-                        );
-                },
-                undefined,
-                reject,
-            );
+export function createObjloader(materialPath) {
+    const manager = new THREE.LoadingManager();
+    const materialsPromise = new Promise((resolve, reject) => {
+        new MTLLoader(manager).load(materialPath, resolve, undefined, reject);
     });
+
+    return {
+        loadObj(path) {
+            return materialsPromise.then((materials) => new Promise((resolve, reject) => {
+                new OBJLoader(manager)
+                    .setMaterials(materials)
+                    .load(path,resolve, undefined, reject);
+            }));
+    },
+  };
 }
