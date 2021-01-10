@@ -23,8 +23,8 @@ function createScene() {
 function createCamera() {
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
     camera.add(new THREE.PointLight(0xffffff, 0.8));
-    camera.position.y = 5;
-    camera.position.z = 10;
+    camera.position.y = 10;
+    camera.position.z = 20;
     return camera;
 }
 

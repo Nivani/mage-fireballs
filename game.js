@@ -1,5 +1,6 @@
 import {initialize} from "./initialize.js";
 import {loadModels} from './models.js';
+import {initializeInput} from './input.js';
 
 export function createGame() {
     const {scene, camera, renderer} = initialize();
@@ -7,6 +8,9 @@ export function createGame() {
         mage: undefined,
         grassTile: undefined,
         waterTile: undefined,
+    };
+    const actors = {
+        mage: undefined,
     };
 
     loadModels()
@@ -17,6 +21,8 @@ export function createGame() {
         })
         .then(startGame)
         .catch(console.error);
+
+    const inputHandler = initializeInput();
 
     return {
         run() {
@@ -33,11 +39,13 @@ export function createGame() {
 
 
     function render() {
+        inputHandler.applyInput(actors, camera);
         renderer.render(scene, camera);
     }
 
     function startGame() {
-        scene.add(createMage());
+        actors.mage = createMage();
+        scene.add(actors.mage);
         for (let x = -25; x <= 25; x++) {
             for (let z = -25; z <= 25; z++) {
                 const tile = (x + z) % 2 === 0 ? createGrassTile() : createWaterTile();
