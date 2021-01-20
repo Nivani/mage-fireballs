@@ -5,17 +5,17 @@ import {MTLLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/MT
 import {OBJLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/OBJLoader.js';
 
 export function loadModels() {
-    const objLoader = createObjloader('modular_terrain_collection/Materials_Modular_Terrain.mtl');
+    const objLoader = createObjloader('models/Materials_Modular_Terrain.mtl');
 
     return Promise.all([
-        loadGltf('KayKit Dungeon Pack 1.0/Models/Characters/gltf/character_mage.gltf')
+        loadGltf('models/character_mage.gltf')
             .then(({scene}) => scene),
-        objLoader.loadObj('modular_terrain_collection/Hilly_Terrain_Water_Flat.obj')
+        objLoader.loadObj('models/Hilly_Terrain_Water_Flat.obj')
             .then(waterTile => {
                 waterTile.position.y = -0.7;
                 return waterTile;
             }),
-        objLoader.loadObj('modular_terrain_collection/Hilly_Terrain_Grass_Floor.obj')
+        objLoader.loadObj('models/Hilly_Terrain_Grass_Floor.obj')
             .then(grassTile => {
                 grassTile.position.y = -0.2;
                 return grassTile;
