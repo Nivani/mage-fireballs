@@ -48,7 +48,7 @@ export function initializeInput() {
     };
 
     return {
-        applyInput(actors, camera) {
+        applyInput(actors) {
             let xInputRatio = 0;
             let zInputRatio = 0;
 
@@ -70,20 +70,17 @@ export function initializeInput() {
                 xInputRatio = -1;
             }
 
-
-            moveMage(actors, camera, xInputRatio, zInputRatio);
+            moveMage(actors, xInputRatio, zInputRatio);
         },
     };
 
-    function moveMage(actors, camera, xInputRatio, zInputRatio) {
-        if (actors.mage) {
+    function moveMage({ mage }, xInputRatio, zInputRatio) {
+        if (mage) {
             const xChange = xInputRatio / 2.0;
-            actors.mage.position.x += xChange;
-            camera.position.x += xChange;
+            mage.position.x += xChange;
 
             const zChange = zInputRatio / 2.0;
-            actors.mage.position.z += zChange;
-            camera.position.z += zChange;
+            mage.position.z += zChange;
         }
     }
 }

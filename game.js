@@ -32,20 +32,18 @@ export function createGame() {
 
             function frame() {
                 requestAnimationFrame(frame);
-                render();
+                applyGameFrame();
+                renderer.render(scene, camera);
             }
         },
     };
 
-
-    function render() {
-        inputHandler.applyInput(actors, camera);
-        renderer.render(scene, camera);
-    }
-
     function startGame() {
         actors.mage = createMage();
         scene.add(actors.mage);
+        followMage(camera, actors);
+        camera.lookAt(actors.mage.position);
+
         for (let x = -25; x <= 25; x++) {
             for (let z = -25; z <= 25; z++) {
                 const tile = (x + z) % 2 === 0 ? createGrassTile() : createWaterTile();
@@ -66,5 +64,18 @@ export function createGame() {
 
     function createWaterTile() {
         return models.grassTile.clone();
+    }
+
+    function applyGameFrame() {
+        inputHandler.applyInput(actors);
+        followMage(camera, actors);
+    }
+
+    function followMage(camera, { mage }) {
+        if (mage) {
+            console.log(mage.position, camera.position);
+            camera.position.x = mage.position.x;
+            camera.position.z = mage.position.z + 20;
+        }
     }
 }

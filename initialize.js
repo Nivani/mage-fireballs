@@ -4,7 +4,6 @@ export function initialize() {
     const scene = createScene();
 
     const camera = createCamera();
-    camera.lookAt(scene.position);
     scene.add(camera);
 
     const renderer = initializeRenderer();
@@ -24,7 +23,6 @@ function createCamera() {
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
     camera.add(new THREE.PointLight(0xffffff, 0.8));
     camera.position.y = 10;
-    camera.position.z = 20;
     return camera;
 }
 
