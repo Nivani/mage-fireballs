@@ -41,7 +41,7 @@ export function createGame() {
     function startGame() {
         actors.mage = createMage();
         scene.add(actors.mage);
-        followMage(camera, actors);
+        followMage(camera, actors.mage);
         camera.lookAt(actors.mage.position);
 
         for (let x = -25; x <= 25; x++) {
@@ -68,12 +68,11 @@ export function createGame() {
 
     function applyGameFrame() {
         inputHandler.applyInput(actors);
-        followMage(camera, actors);
+        followMage(camera, actors.mage);
     }
 
-    function followMage(camera, { mage }) {
+    function followMage(camera, mage) {
         if (mage) {
-            console.log(mage.position, camera.position);
             camera.position.x = mage.position.x;
             camera.position.z = mage.position.z + 20;
         }
