@@ -1,6 +1,7 @@
-import {initialize} from "./initialize.js";
+import {initialize} from './initialize.js';
 import {loadModels} from './models.js';
 import {initializeInput} from './input.js';
+import {applyVelocity} from './physics.js';
 
 export function createGame() {
     const {scene, camera, renderer} = initialize();
@@ -28,11 +29,15 @@ export function createGame() {
         run() {
             this.run = () => {
             };
-            frame();
+            let lastFrameTime = new Date().getTime();
+            frame(lastFrameTime);
 
-            function frame() {
+            function frame(currentTime) {
+                const timeElapsed = currentTime - lastFrameTime;
+                lastFrameTime = currentTime;
+
                 requestAnimationFrame(frame);
-                applyGameFrame();
+                applyGameFrame(timeElapsed);
                 renderer.render(scene, camera);
             }
         },
@@ -66,18 +71,10 @@ export function createGame() {
         return models.grassTile.clone();
     }
 
-    function applyGameFrame() {
+    function applyGameFrame(timeElapsed) {
         const { mageVelocity } = inputHandler.handleInput(actors);
-        applyVelocity(actors.mage, mageVelocity)
+        applyVelocity(actors.mage, mageVelocity, timeElapsed)
         followMage(camera, actors.mage);
-    }
-
-    function applyVelocity(object, velocity) {
-        if (object && velocity) {
-            object.position.x += velocity.x;
-            object.position.y += velocity.y;
-            object.position.z += velocity.z;
-        }
     }
 
     function followMage(camera, mage) {

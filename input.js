@@ -7,7 +7,7 @@ export function initializeInput() {
        right: false,
     };
 
-    window.addEventListener("gamepadconnected", (e) => {
+    window.addEventListener('gamepadconnected', (e) => {
         if (!gamepad) {
             gamepad = e.gamepad;
         }
@@ -72,9 +72,9 @@ export function initializeInput() {
 
             return {
                 mageVelocity: {
-                    x: xInputRatio / 2.0,
+                    x: xInputRatio * 15.0,
                     y: 0.0,
-                    z: zInputRatio / 2.0,
+                    z: zInputRatio * 15.0,
                 },
             };
         },
