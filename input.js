@@ -48,7 +48,7 @@ export function initializeInput() {
     };
 
     return {
-        applyInput(actors) {
+        handleInput() {
             let xInputRatio = 0;
             let zInputRatio = 0;
 
@@ -70,17 +70,13 @@ export function initializeInput() {
                 xInputRatio = -1;
             }
 
-            moveMage(actors, xInputRatio, zInputRatio);
+            return {
+                mageVelocity: {
+                    x: xInputRatio / 2.0,
+                    y: 0.0,
+                    z: zInputRatio / 2.0,
+                },
+            };
         },
     };
-
-    function moveMage({ mage }, xInputRatio, zInputRatio) {
-        if (mage) {
-            const xChange = xInputRatio / 2.0;
-            mage.position.x += xChange;
-
-            const zChange = zInputRatio / 2.0;
-            mage.position.z += zChange;
-        }
-    }
 }

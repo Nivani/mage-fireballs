@@ -67,8 +67,17 @@ export function createGame() {
     }
 
     function applyGameFrame() {
-        inputHandler.applyInput(actors);
+        const { mageVelocity } = inputHandler.handleInput(actors);
+        applyVelocity(actors.mage, mageVelocity)
         followMage(camera, actors.mage);
+    }
+
+    function applyVelocity(object, velocity) {
+        if (object && velocity) {
+            object.position.x += velocity.x;
+            object.position.y += velocity.y;
+            object.position.z += velocity.z;
+        }
     }
 
     function followMage(camera, mage) {
