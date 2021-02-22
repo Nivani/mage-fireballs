@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/nivani/mage-fireballs#readme",
   "devDependencies": {
+    "@babel/cli": "^7.12.17",
+    "@babel/core": "^7.12.17",
+    "@babel/preset-env": "^7.12.17",
     "http-server": "^0.12.3",
     "jest": "^26.6.3"
   }

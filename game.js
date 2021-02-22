@@ -1,7 +1,8 @@
 import {initialize} from './initialize.js';
 import {loadModels} from './models.js';
 import {initializeInput} from './input.js';
-import {applyVelocity} from './physics.js';
+import {applyVelocity, lookInVectorDirection} from './physics.js';
+import {updateInputHelpers} from './helpers.js';
 
 export function createGame() {
     const {scene, camera, renderer} = initialize();
@@ -73,7 +74,9 @@ export function createGame() {
 
     function applyGameFrame(timeElapsed) {
         const { mageVelocity } = inputHandler.handleInput(actors);
+        updateInputHelpers(mageVelocity);
         applyVelocity(actors.mage, mageVelocity, timeElapsed)
+        lookInVectorDirection(actors.mage, mageVelocity)
         followMage(camera, actors.mage);
     }
 

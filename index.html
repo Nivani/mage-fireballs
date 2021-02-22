@@ -10,17 +10,42 @@
             padding: 0;
             width: 100%;
             height: 100%;
+            font-family: sans-serif;
+            color: lightgrey;
         }
 
         #render-target {
             width: 100%;
             height: 100%;
         }
+
+        #helpers {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 8px;
+            border: 1px solid lightgrey;
+            background-color: black;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 
 <div id="render-target"></div>
+
+<div id="helpers">
+    <table>
+        <tr>
+            <td>Input X:</td>
+            <td id="input-x-placeholder"></td>
+        </tr>
+        <tr>
+            <td>Input Z:</td>
+            <td id="input-z-placeholder"></td>
+        </tr>
+    </table>
+</div>
 
 <script type="module">
     import {createGame} from './game.js';
