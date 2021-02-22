@@ -58,6 +58,18 @@ describe('physics', () => {
             expect(object.rotation.y).toBe(7.0 * Math.PI / 4.0);
             expect(object.rotation.z).toBe(0);
         });
+
+        it('doesn\'t update rotation when vector length is 0', () => {
+            const vector = { x: 0.0, y: 0.0, z: 0.0 };
+            const initialRotation = Math.PI / 7.0;
+            const object = {rotation: {x: 0.0, y: initialRotation, z: 0.0}};
+
+            lookInVectorDirection(object, vector);
+
+            expect(object.rotation.x).toBe(0);
+            expect(object.rotation.y).toBe(initialRotation);
+            expect(object.rotation.z).toBe(0);
+        });
     });
 });
 

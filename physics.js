@@ -9,21 +9,30 @@ export function applyVelocity(object, velocity, timeElapsed) {
 
 export function lookInVectorDirection(object, vector) {
     if (object && vector) {
-        vector = normalizeVector(vector);
-        object.rotation.y = Math.acos(vector.z);
-        if (vector.x < 0) {
-            object.rotation.y = 2 * Math.PI - object.rotation.y;
+        const vectorLength = calculateVectorLength(vector);
+        if (vectorLength > 0) {
+            vector = normalizeVector(vector, vectorLength);
+            object.rotation.y = Math.acos(vector.z);
+            if (vector.x < 0) {
+                object.rotation.y = 2 * Math.PI - object.rotation.y;
+            }
         }
     }
 }
 
-function normalizeVector(vector) {
-    const length = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-    if (length > 0) {
+function calculateVectorLength(vector) {
+    return Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+}
+
+function normalizeVector(vector, vectorLength) {
+    if (vectorLength === undefined) {
+        vectorLength = calculateVectorLength(vector);
+    }
+    if (vectorLength > 0) {
         return {
-            x: vector.x / length,
-            y: vector.y / length,
-            z: vector.z / length,
+            x: vector.x / vectorLength,
+            y: vector.y / vectorLength,
+            z: vector.z / vectorLength,
         }
     }
 
