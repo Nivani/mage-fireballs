@@ -1,4 +1,4 @@
-import {lookInVectorDirection} from "./physics.js";
+import {lookInVectorDirection} from './physics.js';
 
 const sinCos45deg = 0.7071;
 
