@@ -1,3 +1,5 @@
+const deadZone = 0.02;
+
 export function initializeInput() {
     let gamepad = undefined;
     const arrowKeys = {
@@ -72,9 +74,9 @@ export function initializeInput() {
 
             return {
                 mageVelocity: {
-                    x: xInputRatio * 15.0,
+                    x: Math.abs(xInputRatio) > deadZone ? xInputRatio * 15.0 : 0.0,
                     y: 0.0,
-                    z: zInputRatio * 15.0,
+                    z: Math.abs(zInputRatio) > deadZone ? zInputRatio * 15.0 : 0.0,
                 },
             };
         },
