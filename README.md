@@ -1,6 +1,6 @@
 # Getting started
 
-Clone the repository and run using:
+Run using:
 ```
 npm start
 ```
