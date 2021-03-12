@@ -1,8 +1,8 @@
-import * as THREE from 'https://unpkg.com/three@0.123.0/build/three.module.js';
+import * as THREE from 'three';
 
-import {GLTFLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/GLTFLoader.js';
-import {MTLLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/MTLLoader.js';
-import {OBJLoader} from 'https://unpkg.com/three@0.123.0/examples/jsm/loaders/OBJLoader.js';
+import {GLTFLoader} from 'three/loaders/GLTFLoader.js';
+import {MTLLoader} from 'three/loaders/MTLLoader.js';
+import {OBJLoader} from 'three/loaders/OBJLoader.js';
 
 export function loadModels() {
     const objLoader = createObjloader('models/Materials_Modular_Terrain.mtl');
