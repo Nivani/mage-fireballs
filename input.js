@@ -8,6 +8,9 @@ export function initializeInput() {
        left: false,
        right: false,
     };
+    const handlers = {
+        jumpHandlers: [],
+    };
 
     window.addEventListener('gamepadconnected', (e) => {
         if (!gamepad) {
@@ -16,7 +19,7 @@ export function initializeInput() {
     });
 
     document.onkeydown = (e) => {
-        switch (e.key) {
+        switch (e.code) {
             case 'ArrowUp':
                 arrowKeys.up = true;
                 break;
@@ -29,11 +32,14 @@ export function initializeInput() {
             case 'ArrowRight':
                 arrowKeys.right = true;
                 break;
+            case 'Space':
+                handlers.jumpHandlers.forEach(handler => handler());
+                break;
         }
     };
 
     document.onkeyup = (e) => {
-        switch (e.key) {
+        switch (e.code) {
             case 'ArrowUp':
                 arrowKeys.up = false;
                 break;
@@ -79,6 +85,9 @@ export function initializeInput() {
                     z: Math.abs(zInputRatio) > deadZone ? zInputRatio * 15.0 : 0.0,
                 },
             };
+        },
+        registerJumpHandler(jumpHandler) {
+            handlers.jumpHandlers.push(jumpHandler);
         },
     };
 }

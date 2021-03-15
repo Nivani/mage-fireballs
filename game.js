@@ -44,7 +44,7 @@ export function setupGame() {
 
     function createHandlers() {
         handlers.input = initializeInput();
-        handlers.mage = createMageHandler(actors.mage);
+        handlers.mage = createMageHandler(actors.mage, handlers.input);
     }
 
     function initializeGame() {
