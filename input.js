@@ -1,7 +1,6 @@
 const deadZone = 0.02;
 
 export function initializeInput() {
-    let gamepad = undefined;
     const arrowKeys = {
        up: false,
        down: false,
@@ -11,12 +10,6 @@ export function initializeInput() {
     const handlers = {
         jumpHandlers: [],
     };
-
-    window.addEventListener('gamepadconnected', (e) => {
-        if (!gamepad) {
-            gamepad = e.gamepad;
-        }
-    });
 
     document.onkeydown = (e) => {
         switch (e.code) {
