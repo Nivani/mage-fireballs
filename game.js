@@ -4,7 +4,7 @@ import {initializeInput} from './input.js';
 import {createMageHandler} from './mage.js';
 import {updateInputHelpers} from './helpers.js';
 
-export function createGame() {
+export function setupGame() {
     const {scene, camera, renderer} = initialize();
     const models = {
         mage: undefined,
@@ -14,79 +14,84 @@ export function createGame() {
     const actors = {
         mage: undefined,
     };
-    let mageHandler = undefined;
+    const handlers = {
+        input: undefined,
+        mage: undefined,
+    };
 
-    loadModels()
+    return loadModels()
         .then(({mage, grassTile, waterTile}) => {
             models.mage = mage;
             models.grassTile = grassTile
             models.waterTile = waterTile;
         })
-        .then(startGame)
-        .catch(console.error);
+        .then(createActors)
+        .then(createHandlers)
+        .then(initializeGame)
+        .then(() => ({
+            models,
+            actors,
+            handlers,
+            scene,
+            camera,
+            renderer,
+        }));
 
-    const inputHandler = initializeInput();
-
-    return {
-        run() {
-            this.run = () => {
-            };
-            let lastFrameTime = new Date().getTime();
-            frame(lastFrameTime);
-
-            function frame(currentTime) {
-                const timeElapsed = currentTime - lastFrameTime;
-                lastFrameTime = currentTime;
-
-                requestAnimationFrame(frame);
-                applyGameFrame(timeElapsed);
-                renderer.render(scene, camera);
-            }
-        },
-    };
-
-    function startGame() {
-        actors.mage = createMage();
+    function createActors() {
+        actors.mage = models.mage.clone();
         scene.add(actors.mage);
-        mageHandler = createMageHandler(actors.mage);
+    }
+
+    function createHandlers() {
+        handlers.input = initializeInput();
+        handlers.mage = createMageHandler(actors.mage);
+    }
+
+    function initializeGame() {
         followMage(camera, actors.mage);
         camera.lookAt(actors.mage.position);
 
         for (let x = -25; x <= 25; x++) {
             for (let z = -25; z <= 25; z++) {
-                const tile = (x + z) % 2 === 0 ? createGrassTile() : createWaterTile();
+                const tile = (x + z) % 2 === 0 ? models.grassTile.clone() : models.waterTile.clone();
                 tile.position.x += x;
                 tile.position.z += z;
                 scene.add(tile);
             }
         }
     }
+}
 
-    function createMage() {
-        return models.mage.clone();
-    }
+export function runGame({
+    actors,
+    handlers,
+    scene,
+    camera,
+    renderer,
+}) {
+    let lastFrameTime = new Date().getTime();
+    animationFrameRecursive(lastFrameTime);
 
-    function createGrassTile() {
-        return models.waterTile.clone();
-    }
+    function animationFrameRecursive(currentTime) {
+        const timeElapsed = currentTime - lastFrameTime;
+        lastFrameTime = currentTime;
 
-    function createWaterTile() {
-        return models.grassTile.clone();
+        requestAnimationFrame(animationFrameRecursive);
+        applyGameFrame(timeElapsed);
+        renderer.render(scene, camera);
     }
 
     function applyGameFrame(timeElapsed) {
-        const { mageVelocity } = inputHandler.applyFrame();
+        const { mageVelocity } = handlers.input.applyFrame();
         updateInputHelpers(mageVelocity);
-        if (mageHandler) {
-            mageHandler.applyFrame(timeElapsed, mageVelocity);
-        }
+        handlers.mage.applyFrame(timeElapsed, mageVelocity);
         followMage(camera, actors.mage);
     }
+}
 
-    function followMage(camera, mage) {
-        if (mage) {
-            camera.position.x = mage.position.x;
-            camera.position.z = mage.position.z + 20;
-        }
+function followMage(camera, mage) {
+    if (mage) {
+        camera.position.x = mage.position.x;
+        camera.position.z = mage.position.z + 20;
     }
 }

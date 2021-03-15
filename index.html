@@ -56,9 +56,11 @@
 </div>
 
 <script type="module">
-    import {createGame} from './game.js';
+    import {setupGame, runGame} from './game.js';
 
-    createGame().run();
+    setupGame()
+      .then(runGame)
+      .catch(console.error);
 </script>
 </body>
 </html>
