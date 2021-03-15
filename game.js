@@ -1,7 +1,7 @@
 import {initialize} from './initialize.js';
 import {loadModels} from './models.js';
 import {initializeInput} from './input.js';
-import {applyVelocity, lookInVectorDirection} from './physics.js';
+import {createMageHandler} from './mage.js';
 import {updateInputHelpers} from './helpers.js';
 
 export function createGame() {
@@ -14,6 +14,7 @@ export function createGame() {
     const actors = {
         mage: undefined,
     };
+    let mageHandler = undefined;
 
     loadModels()
         .then(({mage, grassTile, waterTile}) => {
@@ -47,6 +48,7 @@ export function createGame() {
     function startGame() {
         actors.mage = createMage();
         scene.add(actors.mage);
+        mageHandler = createMageHandler(actors.mage);
         followMage(camera, actors.mage);
         camera.lookAt(actors.mage.position);
 
@@ -73,10 +75,11 @@ export function createGame() {
     }
 
     function applyGameFrame(timeElapsed) {
-        const { mageVelocity } = inputHandler.handleInput(actors);
+        const { mageVelocity } = inputHandler.applyFrame();
         updateInputHelpers(mageVelocity);
-        applyVelocity(actors.mage, mageVelocity, timeElapsed)
-        lookInVectorDirection(actors.mage, mageVelocity)
+        if (mageHandler) {
+            mageHandler.applyFrame(timeElapsed, mageVelocity);
+        }
         followMage(camera, actors.mage);
     }
 

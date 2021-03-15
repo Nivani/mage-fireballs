@@ -50,7 +50,7 @@ export function initializeInput() {
     };
 
     return {
-        handleInput() {
+        applyFrame() {
             let xInputRatio = 0;
             let zInputRatio = 0;
 
