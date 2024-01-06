@@ -8,11 +8,12 @@ export function initializeInput() {
        right: false,
     };
     const handlers = {
-        jumpHandlers: [],
+        fireListeners: [],
+        jumpListeners: [],
     };
 
     document.onkeydown = (e) => {
-        switch (e.code) {
+        switch (e.key) {
             case 'ArrowUp':
                 arrowKeys.up = true;
                 break;
@@ -25,8 +26,11 @@ export function initializeInput() {
             case 'ArrowRight':
                 arrowKeys.right = true;
                 break;
-            case 'Space':
-                handlers.jumpHandlers.forEach(handler => handler());
+            case 'f':
+                handlers.fireListeners.forEach(handler => handler());
+                break;
+            case ' ':
+                handlers.jumpListeners.forEach(handler => handler());
                 break;
         }
     };
@@ -79,8 +83,11 @@ export function initializeInput() {
                 },
             };
         },
-        registerJumpHandler(jumpHandler) {
-            handlers.jumpHandlers.push(jumpHandler);
+        registerFireListener(fireListener) {
+            handlers.fireListeners.push(fireListener);
+        },
+        registerJumpListener(jumpListener) {
+            handlers.jumpListeners.push(jumpListener);
         },
     };
 }

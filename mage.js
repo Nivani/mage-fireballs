@@ -2,7 +2,8 @@ import { applyVelocity, lookInVectorDirection } from './physics.js';
 
 export function createMageHandler(mageObject, inputHandler) {
 
-	inputHandler.registerJumpHandler(jump);
+	inputHandler.registerFireListener(fire);
+	inputHandler.registerJumpListener(jump);
 
 	return {
 		applyFrame(timeElapsed, mageVelocity) {
@@ -10,6 +11,10 @@ export function createMageHandler(mageObject, inputHandler) {
 			lookInVectorDirection(mageObject, mageVelocity)
 		},
 	};
+
+	function fire() {
+		console.log('fire!');
+	}
 
 	function jump() {
 		console.log('jump!');
