@@ -1,66 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Mage, but no fireballs yet</title>
 
     <style type="text/css">
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: sans-serif;
-            color: lightgrey;
-        }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: sans-serif;
+        color: lightgrey;
+      }
 
-        #render-target {
-            width: 100%;
-            height: 100%;
-        }
+      #render-target {
+        width: 100%;
+        height: 100%;
+      }
 
-        #helpers {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            padding: 8px;
-            border: 1px solid lightgrey;
-            background-color: black;
-            border-radius: 5px;
-        }
+      #helpers {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 8px;
+        border: 1px solid lightgrey;
+        background-color: black;
+        border-radius: 5px;
+      }
     </style>
     <script type="importmap">
-    {
+      {
         "imports": {
-            "three": "https://unpkg.com/three@0.123.0/build/three.module.js",
-            "three/loaders/": "https://unpkg.com/three@0.123.0/examples/jsm/loaders/"
+          "three": "https://unpkg.com/three@0.123.0/build/three.module.js",
+          "three/loaders/": "https://unpkg.com/three@0.123.0/examples/jsm/loaders/"
         }
-    }
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
+    <div id="render-target"></div>
 
-<div id="render-target"></div>
-
-<div id="helpers">
-    <table>
+    <div id="helpers">
+      <table>
         <tr>
-            <td>Input X:</td>
-            <td id="input-x-placeholder"></td>
+          <td>Input X:</td>
+          <td id="input-x-placeholder"></td>
         </tr>
         <tr>
-            <td>Input Z:</td>
-            <td id="input-z-placeholder"></td>
+          <td>Input Z:</td>
+          <td id="input-z-placeholder"></td>
         </tr>
-    </table>
-</div>
+      </table>
+    </div>
 
-<script type="module">
-    import {setupGame, runGame} from './game.js';
+    <script type="module">
+      import { setupGame, runGame } from "./game.js";
 
-    setupGame()
-      .then(runGame)
-      .catch(console.error);
-</script>
-</body>
+      setupGame().then(runGame).catch(console.error);
+    </script>
+  </body>
 </html>
