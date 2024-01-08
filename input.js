@@ -52,6 +52,8 @@ export function initializeInput() {
         }
     };
 
+    let direction = { x: 0.0, y: 0.0, z: 0.0 };
+
     return {
         applyFrame() {
             let xInputRatio = 0;
@@ -75,13 +77,14 @@ export function initializeInput() {
                 xInputRatio = -1;
             }
 
-            return {
-                mageVelocity: {
-                    x: Math.abs(xInputRatio) > deadZone ? xInputRatio * 15.0 : 0.0,
-                    y: 0.0,
-                    z: Math.abs(zInputRatio) > deadZone ? zInputRatio * 15.0 : 0.0,
-                },
+            direction = {
+                x: Math.abs(xInputRatio) > deadZone ? xInputRatio : 0.0,
+                y: 0.0,
+                z: Math.abs(zInputRatio) > deadZone ? zInputRatio : 0.0,
             };
+        },
+        get direction() {
+            return direction;
         },
         registerFireListener(fireListener) {
             handlers.fireListeners.push(fireListener);

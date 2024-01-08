@@ -1,3 +1,5 @@
+import { calculateVectorLength, normalizeVector } from "./vectors.js";
+
 export function applyVelocity(object, velocity, timeElapsed) {
     if (object && velocity) {
         const timeModifier = timeElapsed / 1000.0;
@@ -18,23 +20,4 @@ export function lookInVectorDirection(object, vector) {
             }
         }
     }
-}
-
-function calculateVectorLength(vector) {
-    return Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-}
-
-function normalizeVector(vector, vectorLength) {
-    if (vectorLength === undefined) {
-        vectorLength = calculateVectorLength(vector);
-    }
-    if (vectorLength > 0) {
-        return {
-            x: vector.x / vectorLength,
-            y: vector.y / vectorLength,
-            z: vector.z / vectorLength,
-        }
-    }
-
-    return vector;
 }

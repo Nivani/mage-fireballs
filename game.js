@@ -18,6 +18,7 @@ export function setupGame() {
         input: undefined,
         mage: undefined,
     };
+    const mageFollower = createMageFollower(camera, actors);
 
     return loadModels()
         .then(({mage, grassTile, waterTile}) => {
@@ -35,6 +36,12 @@ export function setupGame() {
             scene,
             camera,
             renderer,
+            frameListeners: [
+                handlers.input,
+                handlers.mage,
+                updateInputHelpers(handlers.mage),
+                mageFollower,
+            ],
         }));
 
     function createActors() {
@@ -48,7 +55,7 @@ export function setupGame() {
     }
 
     function initializeGame() {
-        followMage(camera, actors.mage);
+        mageFollower.followMage();
         camera.lookAt(actors.mage.position);
 
         for (let x = -25; x <= 25; x++) {
@@ -63,8 +70,7 @@ export function setupGame() {
 }
 
 export function runGame({
-    actors,
-    handlers,
+    frameListeners,
     scene,
     camera,
     renderer,
@@ -77,21 +83,22 @@ export function runGame({
         lastFrameTime = currentTime;
 
         requestAnimationFrame(animationFrameRecursive);
-        applyGameFrame(timeElapsed);
+        frameListeners.forEach((listener) => listener.applyFrame(timeElapsed));
         renderer.render(scene, camera);
     }
 
-    function applyGameFrame(timeElapsed) {
-        const { mageVelocity } = handlers.input.applyFrame();
-        updateInputHelpers(mageVelocity);
-        handlers.mage.applyFrame(timeElapsed, mageVelocity);
-        followMage(camera, actors.mage);
-    }
 }
 
-function followMage(camera, mage) {
-    if (mage) {
-        camera.position.x = mage.position.x;
-        camera.position.z = mage.position.z + 20;
-    }
+function createMageFollower(camera, actors) {
+    return {
+        applyFrame() {
+            this.followMage();
+        },
+        followMage() {
+            if (actors.mage) {
+                camera.position.x = actors.mage.position.x;
+                camera.position.z = actors.mage.position.z + 20;
+            }
+        },
+    };
 }
