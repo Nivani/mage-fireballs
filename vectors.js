@@ -27,6 +27,10 @@ export function multiplyVector(vector, factor) {
   };
 }
 
+export function isZeroVector(vector) {
+  return vector.x === 0.0 && vector.y === 0.0 && vector.z === 0.0;
+}
+
 export function zeroVector() {
   return { x: 0.0, y: 0.0, z: 0.0 };
 }

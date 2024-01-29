@@ -1,8 +1,9 @@
 import { initialize } from "./initialize.js";
-import { loadModels } from "./models.js";
+import { loadModels, createFireSpellModel } from "./models.js";
 import { initializeInput } from "./input.js";
 import { createMageHandler } from "./mage.js";
 import { updateInputHelpers } from "./helpers.js";
+import { createSpellsHandler } from "./spells.js";
 
 export function setupGame() {
   const { scene, camera, renderer } = initialize();
@@ -10,6 +11,7 @@ export function setupGame() {
     mage: undefined,
     grassTile: undefined,
     waterTile: undefined,
+    fireSpell: undefined,
   };
   const actors = {
     mage: undefined,
@@ -17,14 +19,16 @@ export function setupGame() {
   const handlers = {
     input: undefined,
     mage: undefined,
+    spells: undefined,
   };
   const mageFollower = createMageFollower(camera, actors);
 
   return loadModels()
-    .then(({ mage, grassTile, waterTile }) => {
+    .then(({ mage, grassTile, waterTile, fireSpell }) => {
       models.mage = mage;
       models.grassTile = grassTile;
       models.waterTile = waterTile;
+      models.fireSpell = createFireSpellModel();
     })
     .then(createActors)
     .then(createHandlers)
@@ -39,6 +43,7 @@ export function setupGame() {
       frameListeners: [
         handlers.input,
         handlers.mage,
+        handlers.spells,
         updateInputHelpers(handlers.mage),
         mageFollower,
       ],
@@ -51,7 +56,12 @@ export function setupGame() {
 
   function createHandlers() {
     handlers.input = initializeInput();
-    handlers.mage = createMageHandler(actors.mage, handlers.input);
+    handlers.spells = createSpellsHandler(scene, models.fireSpell);
+    handlers.mage = createMageHandler({
+      mageObject: actors.mage,
+      inputHandler: handlers.input,
+      spellHandler: handlers.spells,
+    });
   }
 
   function initializeGame() {

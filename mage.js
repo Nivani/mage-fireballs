@@ -1,15 +1,21 @@
 import { applyVelocity, lookInVectorDirection } from "./physics.js";
-import { multiplyVector, zeroVector } from "./vectors.js";
+import { multiplyVector, zeroVector, isZeroVector } from "./vectors.js";
 
-export function createMageHandler(mageObject, inputHandler) {
+const walkingSpeed = 15.0;
+
+export function createMageHandler({ mageObject, inputHandler, spellHandler }) {
   inputHandler.registerFireListener(fire);
   inputHandler.registerJumpListener(jump);
 
   let velocity = zeroVector();
+  let lookingAt = zeroVector();
 
   return {
     applyFrame(timeElapsed) {
-      velocity = multiplyVector(inputHandler.direction, 15.0);
+      if (!isZeroVector(inputHandler.direction)) {
+        lookingAt = inputHandler.direction;
+      }
+      velocity = multiplyVector(inputHandler.direction, walkingSpeed);
       applyVelocity(mageObject, velocity, timeElapsed);
       lookInVectorDirection(mageObject, velocity);
     },
@@ -19,7 +25,14 @@ export function createMageHandler(mageObject, inputHandler) {
   };
 
   function fire() {
-    console.log("fire!");
+    spellHandler.addFireSpell(
+      {
+        x: mageObject.position.x,
+        y: mageObject.position.y,
+        z: mageObject.position.z - 1.0,
+      },
+      lookingAt,
+    );
   }
 
   function jump() {

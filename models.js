@@ -51,3 +51,9 @@ export function createObjloader(materialPath) {
     },
   };
 }
+
+export function createFireSpellModel() {
+  const geometry = new THREE.SphereGeometry(0.3, 32, 16);
+  const material = new THREE.MeshBasicMaterial({ color: 0xc00000 });
+  return new THREE.Mesh(geometry, material);
+}
