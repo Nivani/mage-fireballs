@@ -1,9 +1,11 @@
+import { PlaneBufferGeometry } from "three";
 import { initialize } from "./initialize.js";
 import { loadModels, createFireSpellModel } from "./models.js";
 import { initializeInput } from "./input.js";
 import { createMageHandler } from "./mage.js";
 import { updateHelpers } from "./helpers.js";
 import { createSpellsHandler } from "./spells.js";
+import { Fire } from "./Fire.js";
 
 export function setupGame() {
   const { scene, camera, renderer } = initialize();
@@ -79,6 +81,35 @@ export function setupGame() {
         scene.add(tile);
       }
     }
+
+    const plane = new PlaneBufferGeometry(4, 4);
+    const fire = new Fire( plane, {
+      textureWidth: 512,
+      textureHeight: 512,
+      debug: false
+    });
+    fire.position.x = 2;
+    fire.position.y = 2;
+    scene.add(fire);
+
+    fire.clearSources();
+    fire.addSource( 0.5, 0.1, 0.1, 1.0, 0.0, 1.0 );
+
+    fire.color1.set(0xffffff);
+    fire.color2.set(0xffa000);
+    fire.color3.set(0x000000);
+    fire.windVector.x = 0.0;
+    fire.windVector.y = 0.75;
+    fire.colorBias = 0.8;
+    fire.burnRate = 0.3;
+    fire.diffuse = 1.33;
+    fire.viscosity = 0.25;
+    fire.expansion = - 0.25;
+    fire.swirl = 50.0;
+    fire.drag = 0.35;
+    fire.airSpeed = 12.0;
+    fire.speed = 500.0;
+    fire.massConservation = false;
   }
 }
 
