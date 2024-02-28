@@ -2,7 +2,7 @@ import { initialize } from "./initialize.js";
 import { loadModels, createFireSpellModel } from "./models.js";
 import { initializeInput } from "./input.js";
 import { createMageHandler } from "./mage.js";
-import { updateInputHelpers } from "./helpers.js";
+import { updateHelpers } from "./helpers.js";
 import { createSpellsHandler } from "./spells.js";
 
 export function setupGame() {
@@ -44,7 +44,7 @@ export function setupGame() {
         handlers.input,
         handlers.mage,
         handlers.spells,
-        updateInputHelpers(handlers.mage),
+        updateHelpers(handlers.mage),
         mageFollower,
       ],
     }));

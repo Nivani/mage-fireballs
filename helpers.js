@@ -1,11 +1,13 @@
-export function updateInputHelpers(mageHandler) {
+export function updateHelpers(mageHandler) {
+  const fpsElement = document.getElementById("fps-placeholder");
+  const inputXElement = document.getElementById("input-x-placeholder");
+  const inputZElement = document.getElementById("input-z-placeholder");
   return {
-    applyFrame() {
+    applyFrame(timeElapsed) {
       const mageVelocity = mageHandler.velocity;
-      document.getElementById("input-x-placeholder").innerText =
-        `${mageVelocity.x}`;
-      document.getElementById("input-z-placeholder").innerText =
-        `${mageVelocity.z}`;
+      fpsElement.innerText = `${Math.round(1000.0 / timeElapsed)}`;
+      inputXElement.innerText = `${mageVelocity.x}`;
+      inputZElement.innerText = `${mageVelocity.z}`;
     },
   };
 }

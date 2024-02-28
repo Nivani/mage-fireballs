@@ -29,6 +29,11 @@
         background-color: black;
         border-radius: 5px;
       }
+
+      #helpers th {
+          font-weight: normal;
+          text-align: right;
+      }
     </style>
     <script type="importmap">
       {
@@ -45,11 +50,15 @@
     <div id="helpers">
       <table>
         <tr>
-          <td>Input X:</td>
+          <th>FPS:</th>
+          <td id="fps-placeholder"></td>
+        </tr>
+        <tr>
+          <th>Input X:</th>
           <td id="input-x-placeholder"></td>
         </tr>
         <tr>
-          <td>Input Z:</td>
+          <th>Input Z:</th>
           <td id="input-z-placeholder"></td>
         </tr>
       </table>
