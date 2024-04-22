@@ -1,5 +1,5 @@
 // Source: https://www.html5tricks.com/demo/html5-canvas-toon-fireball/index.html
-import { Layers, Mesh, DoubleSide, CylinderBufferGeometry, Vector3, Vector2, MeshBasicMaterial, SphereBufferGeometry, ShaderMaterial, TextureLoader } from "three";
+import { Layers, Mesh, DoubleSide, CylinderGeometry, Vector3, Vector2, MeshBasicMaterial, SphereGeometry, ShaderMaterial, TextureLoader } from "three";
 import { EffectComposer } from "three/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/postprocessing/UnrealBloomPass.js";
@@ -273,7 +273,7 @@ function postProc(scene, camera, renderer) {
 }
 
 function mesh(scene) {
-  const geometry = new SphereBufferGeometry(1, 30, 30);
+  const geometry = new SphereGeometry(1, 30, 30);
   material = new ShaderMaterial({
     uniforms: {
       time: {
@@ -323,7 +323,7 @@ function mesh(scene) {
 }
 
 function cylinder(scene) {
-  const geometry = new CylinderBufferGeometry(1.11, 0, 5.3, 50, 50, true);
+  const geometry = new CylinderGeometry(1.11, 0, 5.3, 50, 50, true);
   material2 = new ShaderMaterial({
     uniforms: {
       perlinnoise: {
@@ -362,7 +362,7 @@ function cylinder(scene) {
 }
 
 function flame(scene) {
-  const geometry = new CylinderBufferGeometry(1, 0, 5.3, 50, 50, true);
+  const geometry = new CylinderGeometry(1, 0, 5.3, 50, 50, true);
   material3 = new ShaderMaterial({
     uniforms: {
       perlinnoise: {
