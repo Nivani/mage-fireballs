@@ -1,8 +1,7 @@
 import {
   Scene,
-  AmbientLight,
   PerspectiveCamera,
-  PointLight,
+  DirectionalLight,
   WebGLRenderer,
 } from "three";
 
@@ -21,7 +20,9 @@ export function initialize() {
 
 function createScene() {
   const scene = new Scene();
-  scene.add(new AmbientLight(0xcccccc, 0.4));
+  const directionalLight = new DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(0, 1, 1);
+  scene.add(directionalLight);
   return scene;
 }
 
@@ -32,7 +33,6 @@ function createCamera() {
     0.1,
     2000,
   );
-  camera.add(new PointLight(0xffffff, 700));
   camera.position.y = 10;
   return camera;
 }
