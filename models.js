@@ -1,4 +1,9 @@
-import * as THREE from "three";
+import {
+  LoadingManager,
+  SphereGeometry,
+  MeshPhongMaterial,
+  Mesh,
+} from "three";
 
 import { GLTFLoader } from "three/loaders/GLTFLoader.js";
 import { MTLLoader } from "three/loaders/MTLLoader.js";
@@ -33,7 +38,7 @@ export function loadGltf(path) {
 }
 
 export function createObjloader(materialPath) {
-  const manager = new THREE.LoadingManager();
+  const manager = new LoadingManager();
   const materialsPromise = new Promise((resolve, reject) => {
     new MTLLoader(manager).load(materialPath, resolve, undefined, reject);
   });
@@ -53,7 +58,7 @@ export function createObjloader(materialPath) {
 }
 
 export function createFireSpellModel() {
-  const geometry = new THREE.SphereGeometry(0.3, 32, 16);
-  const material = new THREE.MeshBasicMaterial({ color: 0xc00000 });
-  return new THREE.Mesh(geometry, material);
+  const geometry = new SphereGeometry(0.3, 32, 16);
+  const material = new MeshPhongMaterial({ color: 0xc00000 });
+  return new Mesh(geometry, material);
 }

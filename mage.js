@@ -1,3 +1,4 @@
+import { Vector3 } from "three";
 import { applyVelocity, lookInVectorDirection } from "./physics.js";
 import { multiplyVector, zeroVector, isZeroVector } from "./vectors.js";
 
@@ -8,7 +9,7 @@ export function createMageHandler({ mageObject, inputHandler, spellHandler }) {
   inputHandler.registerJumpListener(jump);
 
   let velocity = zeroVector();
-  let lookingAt = zeroVector();
+  let lookingAt = new Vector3(0, 0, 1);
 
   return {
     applyFrame(timeElapsed) {
