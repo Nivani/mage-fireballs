@@ -59,7 +59,6 @@ function createLightProvider(scene) {
     provide() {
       const light = lights[lightIndex];
       lightIndex = (lightIndex + 1) % lights.length;
-      console.log(lightIndex);
       return light;
     }
   };
